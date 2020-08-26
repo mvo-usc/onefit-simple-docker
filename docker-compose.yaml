@@ -1,0 +1,29 @@
+version: "3.6"
+
+services:
+  server:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - "./:/code"
+      - "./.docker/nginx:/etc/nginx/conf.d/"
+    links:
+      - phpfpm
+
+#  website-phpfpm:
+#    build:
+#      context: ./.docker/website
+#    volumes:
+#      - "./:/code"
+#  api:
+#    build:
+#      context: ./.docker/api
+#    volumes:
+#      - "./:/code"
+  phpfpm:
+    build:
+      context: ./.docker/phpfpm
+    volumes:
+      - "./:/code"
+      - "./.docker/phpfpm/php.ini:/usr/local/etc/php/conf.d/php.ini"
