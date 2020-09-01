@@ -11,16 +11,16 @@ services:
     links:
       - phpfpm
 
-#  website-phpfpm:
-#    build:
-#      context: ./.docker/website
-#    volumes:
-#      - "./:/code"
-#  api:
-#    build:
-#      context: ./.docker/api
-#    volumes:
-#      - "./:/code"
+  api:
+    image: nginx:latest
+    ports:
+      - "8081:80"
+    volumes:
+      - "./:/code"
+      - "./.docker/api:/etc/nginx/conf.d/"
+    links:
+      - phpfpm
+
   phpfpm:
     build:
       context: ./.docker/phpfpm

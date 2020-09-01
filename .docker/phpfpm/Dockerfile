@@ -25,6 +25,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer --version
 
 RUN install-php-extensions pcntl
+RUN install-php-extensions imagick
 
 ADD ./php.ini /usr/local/etc/php/conf.d/php.ini
 
@@ -38,4 +39,4 @@ RUN echo "xdebug.remote_host = host.docker.internal" >> /usr/local/etc/php/conf.
 
 RUN apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /code/website
+WORKDIR /code
