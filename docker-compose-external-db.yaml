@@ -1,0 +1,68 @@
+version: "3.6"
+services:
+  server:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - "./:/code"
+      - "./.docker/nginx:/etc/nginx/conf.d/"
+    links:
+      - phpfpm
+  api:
+    image: nginx:latest
+    ports:
+      - "8081:80"
+    volumes:
+      - "./:/code"
+      - "./.docker/api:/etc/nginx/conf.d/"
+    links:
+      - phpfpm
+  backoffice:
+    image: nginx:latest
+    ports:
+      - "8082:80"
+    volumes:
+      - "./:/code"
+      - "./.docker/nginx:/etc/nginx/conf.d/"
+    links:
+      - phpfpm
+#  db:
+#    image: library/mysql:5.7.25
+#    volumes:
+#      - "./.docker/db/data:/var/lib/mysql"
+#      - "./.docker/db/conf.d:/etc/mysql/conf.d"
+#    ports:
+#      - "3306:3306"
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: devdb
+#      MYSQL_USER: dev
+#      MYSQL_PASSWORD: dev
+#  elasticsearch:
+#    image: library/elasticsearch:7.3.2
+#    volumes:
+#      - "./.docker/elasticsearch/data:/usr/share/elasticsearch/data"
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
+#    environment:
+#      - node.name=elasticsearch
+#      - cluster.name=es-docker-cluster
+#      - cluster.initial_master_nodes=elasticsearch
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+  phpfpm:
+    build:
+      context: ./.docker/phpfpm
+    volumes:
+      - "./:/code"
+      - "./.docker/phpfpm/php.ini:/usr/local/etc/php/conf.d/php.ini"
+#    links:
+#      - db
+#      - elasticsearch
