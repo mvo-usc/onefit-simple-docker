@@ -1,4 +1,6 @@
 *
-!.docker
-!docker-compose.yaml
+!.docker/
 !.gitignore
+!docker-compose.yaml
+!docker-compose-external-db.yaml
+
