@@ -9,7 +9,8 @@ RUN chmod uga+x /usr/local/bin/install-php-extensions && sync && \
         rdkafka \
         soap \
         xdebug \
-        yaml
+        yaml \
+        bcmath
 
 RUN set -ex; \
     apt-get update \
