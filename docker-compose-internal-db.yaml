@@ -1,0 +1,51 @@
+version: "3.6"
+services:
+  server:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - "./:/code"
+      - "./.docker/nginx:/etc/nginx/conf.d/"
+    links:
+      - phpfpm
+  api:
+    image: nginx:latest
+    ports:
+      - "8081:80"
+    volumes:
+      - "./:/code"
+      - "./.docker/api:/etc/nginx/conf.d/"
+    links:
+      - phpfpm
+  backoffice:
+    image: nginx:latest
+    ports:
+      - "8082:80"
+    volumes:
+      - "./:/code"
+      - "./.docker/nginx:/etc/nginx/conf.d/"
+    links:
+      - phpfpm
+  db:
+    image: library/mysql:5.7.25
+    volumes:
+      - "./.docker/db/data:/var/lib/mysql"
+      - "./.docker/db/conf.d:/etc/mysql/conf.d"
+      - "./.docker/db/dump:/var/dbdump"
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: devdb
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: dev
+  phpfpm:
+    build:
+      context: ./.docker/phpfpm
+    volumes:
+      - "./:/code"
+      - "./.docker/phpfpm/php.ini:/usr/local/etc/php/conf.d/php.ini"
+    links:
+      - db
