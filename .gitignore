@@ -3,4 +3,5 @@
 !.gitignore
 !docker-compose.yaml
 !docker-compose-external-db.yaml
+!docker-compose-internal-db.yaml
 
